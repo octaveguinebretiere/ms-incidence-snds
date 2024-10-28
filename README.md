@@ -16,3 +16,4 @@ These strengths enable robust identification and offer high generalizability. Ho
 
 The SAS code is structured to follow a specific workflow to ensure accurate data processing and analysis. The key steps are outlined below, and the detailed flow is illustrated below.
 
+![Data flow](DATA_FLOW_MS_SNDS.pdf)
