@@ -50,4 +50,4 @@ The SAS code is structured to follow a specific workflow to ensure accurate data
 
 ## **4. References**
 
-- Code adaptation from [HAS Programmes-SNDS Repository.](https://gitlab.has-sante.fr/has-sante/public/programmes-snds)
+- Code for drug and hospital discharge extractions were adapted from [HAS Programmes-SNDS Repository.](https://gitlab.has-sante.fr/has-sante/public/programmes-snds)
