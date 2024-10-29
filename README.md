@@ -10,7 +10,7 @@ This project leverages the French National Health Data System (SNDS) to study th
 1. Since 2009, it covers 99% of the French population.
 2. It contains comprehensive data on MS-related disease-modifying therapies, hospital discharge codes, and benefits for long-term illnesses associated with MS.
 
-These strengths enable robust identification and offer high generalizability. However, studying MS incidence can be challenging due to the absence of direct access to patient medical records. Consequently, patients with primary progressive MS or "benign" MS, who may not undergo treatment or have long-term benefits, might remain unrecorded until a complication occurs that necessitates hospitalization or the prescription of a disease-modifying therapy. This project aims to refine methods to assess the accuracy of MS case recording within the database.
+These strengths enable robust identification and offer high generalizability. However, studying MS incidence can be challenging due to the absence of direct access to patient medical records. Consequently, patients with primary progressive MS or "benign" MS, who may not undergo treatment or have long-term benefits, might remain unrecorded until a complication occurs that necessitates hospitalization or the prescription of a disease-modifying therapy. This project aims to refine methods to assess the accuracy of MS case recording within the database; for example, by defining a sensitive and a specific definition of our MS case-finding algorithm.
 
 ## **2. Code Organization**
 
