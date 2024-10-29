@@ -1,0 +1,117 @@
+/*****************************************************************************/
+/*              TIME TRENDS INCIDENCE OF MULTIPLE SCLEROSIS                   */
+/*****************************************************************************/
+
+/*****************************************************************************/
+
+/* Nom du programme : criteria_prob
+/* Objective : 
+Create the table that contains probable MS cases (patients without MD-LTD and at least 2 MS-HOSP
+OR at least 2 MS-DMT OR at least one MS-HOSP and one MS-DMT.
+the exe_soit_dtd variable is now the index date (minimum between the 3 sources)
+
+/* Tables : 
+
+input tables
+
+extraction_ltd
+extraction_dmt
+extraction_hosp
+extraction_hosp_ldt_dmt
+
+output tables
+
+ms_prob
+
+/*****************************************************************************/
+
+
+
+
+/* 
+
+we select patients with MS-HOSP or MS-DMT and no MS-LTD
+*/
+
+proc sql;
+create table work.ms_hosp_no_ltd as
+select a.*
+from work.extraction_hosp a left join work.ms_highly_prob b
+on a.ben_idt_ano = b.ben_idt_ano
+where b.ben_idt_ano is null;
+quit;
+
+proc sql;
+create table work.ms_dmt_no_ltd as
+select a.*
+from work.extraction_dmt a left join work.ms_highly_prob b
+on a.ben_idt_ano = b.ben_idt_ano
+where b.ben_idt_ano is null;
+quit;
+
+
+/*
+
+we select patient having no LTD but one MS-DMT and one MS-HOSP
+
+*/
+
+proc sql;
+create table work.ms_dmt_and_hosp as
+select a.*
+from work.ms_hosp_no_ltd a innner join work.ms_dmt_no_ltd b
+on a.ben_idt_ano = b.ben_idt_ano;
+quit;
+
+
+proc sql;
+   create table work.two_hosp_no_ltd as
+      select BEN_IDT_ANO, EXE_SOI_DTD
+	  from work.ms_hosp_no_ltd
+	  group by ben_idt_ano having count(distinct exe_soi_dtd) > 1;
+quit;
+
+
+proc sql;
+   create table work.two_dmt_no_ltd as
+      select BEN_IDT_ANO, EXE_SOI_DTD
+	  from work.ms_dmt_no_ltd
+	  group by ben_idt_ano having count(distinct exe_soi_dtd) > 1;
+quit;
+
+
+proc sql;
+create table ms_prob as 
+select *
+from work.ms_dmt_and_hosp
+union 
+select *
+from work.two_hosp_no_ltd
+union 
+select *
+from work.two_dmt_no_ltd;
+quit;
+
+
+
+proc sql;
+create table work.ms_prob as
+select a.*
+from work.ms_prob a left join work.nmosd_pmsi_06_23 b
+on a.ben_idt_ano = b.ben_idt_ano
+where b.ben_idt_ano is null;
+quit;
+
+
+proc sort data=work.ms_prob out=work.ms_prob nodupkey;
+by ben_idt_ano;
+run;
+
+
+
+%new_index_date(TABLEIN=ms_prob, TABLEEXT=extraction_hosp_ltd_dmt);
+
+
+proc sort data=work.ms_prob out=sasdata1.ms_prob nodupkey;
+by ben_idt_ano;
+run;
